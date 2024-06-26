@@ -1,15 +1,14 @@
-cmake_minimum_required(VERSION 3.13)
+cmake_minimum_required(VERSION 3.22)
 
+configure_file(version.h.in version.h)
 set(PATCH_VERSION "1" CACHE INTERNAL "Patch version")
 set(PROJECT_VESRION 0.0.${PATCH_VERSION})
 
-project(version VERSION ${PROJECT_VERSION})
+project(allocator VERSION ${PROJECT_VERSION})
 
 option(WITH_GOOGLE_TEST "Whether to build GTest" ON)
-configure_file(version.h.in version.h)
 
 add_executable(allocator allocator.cpp)
-add_library(version lib.cpp)
 
 set_target_properties(allocator PROPERTIES
     CXX_STANDARD 17
@@ -17,9 +16,6 @@ set_target_properties(allocator PROPERTIES
 )
 
 target_include_directories(allocator PRIVATE "${CMAKE_BINARY_DIR}")
-target_link_libraries(allocator PRIVATE
-    version
-)
 
 if(WITH_GOOGLE_TEST)
     find_package(GTest REQUIRED)
