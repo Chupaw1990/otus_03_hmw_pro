@@ -47,8 +47,8 @@ else ()
 
 endif()
 
-include(CPack)
 install(TARGETS allocator RUNTIME DESTINATION bin)
+include(CPack)
 
 # set(CPACK_GENERATOR DEB)
 # set(CPACK_PACKAGE_VERSION_MAJOR "${PROJECT_VERSION_MAJOR}")
