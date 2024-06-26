@@ -1,6 +1,5 @@
 cmake_minimum_required(VERSION 3.22)
 
-configure_file(version.h.in version.h)
 set(PATCH_VERSION "1" CACHE INTERNAL "Patch version")
 set(PROJECT_VESRION 0.0.${PATCH_VERSION})
 
@@ -8,6 +7,7 @@ project(allocator VERSION ${PROJECT_VERSION})
 
 option(WITH_GOOGLE_TEST "Whether to build GTest" ON)
 
+configure_file(version.h.in version.h)
 add_executable(allocator allocator.cpp)
 
 set_target_properties(allocator PROPERTIES
