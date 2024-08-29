@@ -8,18 +8,21 @@ class custom_allocator {
 
     custom_allocator() noexcept
         : pool(static_cast<u_int8_t *>(
-              ::operator new(allocator_size * sizeof(T)))) {}
+              ::operator new(allocator_size * sizeof(T)))),
+              pos{0} {}
     ~custom_allocator() { delete pool; };
 
     T *allocate(size_t n) {
-        if (n > allocator_size) {
+        if (pos + n > allocator_size) {
             throw std::bad_alloc();
         }
         if (n == 0) {
             return nullptr;
         }
+        int current = pos;
+        pos += n;
 
-        return static_cast<T *>(::operator new(n * sizeof(T)));
+        return reinterpret_cast<T*>(pool) + current;
     }
     void deallocate(T *p, size_t n) { ::operator delete(p, n * sizeof(T)); }
 
@@ -34,6 +37,7 @@ class custom_allocator {
 
    private:
     u_int8_t *pool;
+    int pos;
 };
 
 template <typename T, size_t allocator_size, typename U, size_t S>
